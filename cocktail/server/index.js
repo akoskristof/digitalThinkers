@@ -9,9 +9,16 @@ app.use(cors());
 const port = 4000;
 
 app.get('/api/cocktail', (req, res) => {
+    const search = req.query.name;
 
-    axios.get('http://www.thecocktaildb.com/api/json/v1/1/random.php')
+    // decide which url should we send request to.
+    url = "http://www.thecocktaildb.com/api/json/v1/1/random.php";
+    if (search != null) url = "http://www.thecocktaildb.com/api/json/v1/1/search.php?s="+search;
+
+    // send request
+    axios.get(url)
         .then(function (response) {
+            // allow testing
             res.header("Access-Control-Allow-Origin", "http://localhost:3000");
             var info = {
                 name: response.data.drinks[0].strDrink,
@@ -23,14 +30,11 @@ app.get('/api/cocktail', (req, res) => {
             console.log(info);
         })
         .catch(function (error) {
-            // handle error
             console.log(error);
         })
-        .then(function () {
-            // always executed
-    });
 })
 
+// get ingredients from json response.
 function getIngredients(data){
     arr = [];
     for (let i = 1; i < 15; i++) {
