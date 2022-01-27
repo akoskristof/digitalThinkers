@@ -1,0 +1,6 @@
+{
+    "scripts": {
+      "client": "cd cocktail/client && npm start",
+      "server": "node cocktail/server/index.js"
+    }
+  }
